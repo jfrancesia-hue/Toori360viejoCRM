@@ -9,7 +9,7 @@ module.exports = {
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@toori360/shared$': '<rootDir>/../../packages/shared/src/index.ts',
-    '^@toori360/db$': '<rootDir>/../../packages/db/src/index.ts',
+    '^@toori360/shared$': '<rootDir>/../../../packages/shared/src/index.ts',
+    '^@toori360/db$': '<rootDir>/../../../packages/db/src/index.ts',
   },
 };
