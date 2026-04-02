@@ -55,6 +55,21 @@ export function ProviderDetail({ id }: { id: string }) {
     queryFn: () => api.get<{ data: Provider }>(`/providers/${id}`),
   });
 
+  const provider = data?.data;
+
+  const toggleStatus = useMutation({
+    mutationFn: () =>
+      api.patch(`/providers/${id}`, {
+        status: provider?.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['provider', id] });
+      qc.invalidateQueries({ queryKey: ['providers'] });
+      toast.success('Estado actualizado');
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+
   if (isLoading) {
     return (
       <div className="space-y-4 animate-pulse">
@@ -67,7 +82,7 @@ export function ProviderDetail({ id }: { id: string }) {
     );
   }
 
-  if (!data?.data) {
+  if (!provider) {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <p className="text-muted-foreground">Proveedor no encontrado</p>
@@ -75,21 +90,6 @@ export function ProviderDetail({ id }: { id: string }) {
       </div>
     );
   }
-
-  const provider = data.data;
-
-  const toggleStatus = useMutation({
-    mutationFn: () =>
-      api.patch(`/providers/${id}`, {
-        status: provider.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
-      }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['provider', id] });
-      qc.invalidateQueries({ queryKey: ['providers'] });
-      toast.success('Estado actualizado');
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
 
   return (
     <div className="space-y-5">
