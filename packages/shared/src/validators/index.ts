@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Priority, TicketSource, TicketStatus, UserRole } from '../types/enums';
+import { Priority, TicketSource, TicketStatus } from '../types/enums';
 
 export const paginationSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
