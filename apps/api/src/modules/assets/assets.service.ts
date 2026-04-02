@@ -93,7 +93,12 @@ export class AssetsService {
     const updated = await this.prisma.asset.update({
       where: { id },
       data: {
-        ...dto,
+        name: dto.name,
+        type: dto.type,
+        status: dto.status,
+        brand: dto.brand,
+        model: dto.model,
+        notes: dto.notes,
         installDate: dto.installDate ? new Date(dto.installDate) : undefined,
         warrantyEnd: dto.warrantyEnd ? new Date(dto.warrantyEnd) : undefined,
       },

@@ -6,7 +6,7 @@ export class CreateProviderDto {
   @IsString()
   @MinLength(2)
   @MaxLength(200)
-  businessName: string;
+  businessName!: string;
 
   @ApiPropertyOptional({ example: '30-12345678-9' })
   @IsOptional()
@@ -18,13 +18,13 @@ export class CreateProviderDto {
   @IsString()
   @MinLength(2)
   @MaxLength(200)
-  contactName: string;
+  contactName!: string;
 
   @ApiProperty({ example: '+54 383 4123456' })
   @IsString()
   @MinLength(6)
   @MaxLength(50)
-  phone: string;
+  phone!: string;
 
   @ApiPropertyOptional({ example: 'contacto@plomeros.com' })
   @IsOptional()

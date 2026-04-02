@@ -8,13 +8,13 @@ export class CreatePropertyDto {
   @IsString()
   @MinLength(2)
   @MaxLength(200)
-  name: string;
+  name!: string;
 
   @ApiProperty({ example: 'San Martín 450, Catamarca' })
   @IsString()
   @MinLength(5)
   @MaxLength(500)
-  address: string;
+  address!: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -28,7 +28,7 @@ export class CreatePropertyDto {
 
   @ApiProperty({ enum: ['BUILDING', 'HOUSE', 'COMPLEX', 'OFFICE', 'COMMERCIAL'] })
   @IsEnum(['BUILDING', 'HOUSE', 'COMPLEX', 'OFFICE', 'COMMERCIAL'])
-  type: 'BUILDING' | 'HOUSE' | 'COMPLEX' | 'OFFICE' | 'COMMERCIAL';
+  type!: 'BUILDING' | 'HOUSE' | 'COMPLEX' | 'OFFICE' | 'COMMERCIAL';
 
   @ApiPropertyOptional()
   @IsOptional()

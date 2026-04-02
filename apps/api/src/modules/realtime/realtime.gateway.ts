@@ -31,7 +31,7 @@ interface AuthPayload {
 })
 export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   private readonly logger = new Logger(RealtimeGateway.name);
   private userSockets = new Map<string, string>(); // userId → socketId

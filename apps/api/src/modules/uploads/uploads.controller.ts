@@ -3,7 +3,7 @@ import {
   UseInterceptors, UseGuards, ParseFilePipe, MaxFileSizeValidator,
   Query,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiBearerAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { UploadsService } from './uploads.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';

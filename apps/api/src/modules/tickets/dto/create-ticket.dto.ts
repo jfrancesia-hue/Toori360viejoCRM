@@ -9,13 +9,13 @@ export class CreateTicketDto {
   @IsString()
   @MinLength(5)
   @MaxLength(200)
-  title: string;
+  title!: string;
 
   @ApiProperty({ example: 'Hay una pérdida de agua constante debajo del lavatorio.' })
   @IsString()
   @MinLength(10)
   @MaxLength(5000)
-  description: string;
+  description!: string;
 
   @ApiPropertyOptional({ enum: Priority, default: Priority.MEDIUM })
   @IsOptional()
@@ -34,7 +34,7 @@ export class CreateTicketDto {
 
   @ApiProperty()
   @IsUUID()
-  propertyId: string;
+  propertyId!: string;
 
   @ApiPropertyOptional()
   @IsOptional()

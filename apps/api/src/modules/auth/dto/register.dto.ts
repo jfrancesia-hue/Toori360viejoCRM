@@ -6,23 +6,23 @@ export class RegisterDto {
   @IsString()
   @MinLength(2)
   @MaxLength(200)
-  tenantName: string;
+  tenantName!: string;
 
   @ApiProperty({ example: 'admin@empresa.com' })
   @IsEmail()
-  email: string;
+  email!: string;
 
   @ApiProperty({ example: 'MiPassword123!' })
   @IsString()
   @MinLength(8)
   @MaxLength(128)
-  password: string;
+  password!: string;
 
   @ApiProperty({ example: 'Juan García' })
   @IsString()
   @MinLength(2)
   @MaxLength(200)
-  name: string;
+  name!: string;
 
   @ApiPropertyOptional({ example: '+54 383 4123456' })
   @IsOptional()

@@ -50,7 +50,7 @@ export class UpdateTicketDto {
 
 export class ChangeTicketStatusDto {
   @IsEnum(TicketStatus)
-  status: TicketStatus;
+  status!: TicketStatus;
 
   @IsOptional()
   @IsString()
@@ -60,12 +60,12 @@ export class ChangeTicketStatusDto {
 
 export class AddTicketEventDto {
   @IsEnum(['MESSAGE', 'NOTE', 'FILE_UPLOAD'])
-  eventType: 'MESSAGE' | 'NOTE' | 'FILE_UPLOAD';
+  eventType!: 'MESSAGE' | 'NOTE' | 'FILE_UPLOAD';
 
   @IsString()
   @MinLength(1)
   @MaxLength(5000)
-  content: string;
+  content!: string;
 
   @IsOptional()
   @IsEnum(['INTERNAL', 'PROVIDER', 'CLIENT', 'ALL'])

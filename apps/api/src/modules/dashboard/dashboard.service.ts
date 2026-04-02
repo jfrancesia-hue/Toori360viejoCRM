@@ -8,7 +8,6 @@ export class DashboardService {
   async getOverview(tenantId: string) {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
     const [
       totalOpen,
@@ -165,7 +164,7 @@ export class DashboardService {
 
     const hasDateFilter = from || to;
 
-    const [tickets, providers, categories, byPriority, byStatus] = await Promise.all([
+    const [tickets, providers, , byPriority, byStatus] = await Promise.all([
       this.prisma.ticket.findMany({
         where: {
           tenantId,

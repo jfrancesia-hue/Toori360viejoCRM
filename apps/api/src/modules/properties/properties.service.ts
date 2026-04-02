@@ -104,7 +104,15 @@ export class PropertiesService {
     await this.findOne(tenantId, propertyId);
 
     const unit = await this.prisma.unit.create({
-      data: { propertyId, ...dto as Parameters<typeof this.prisma.unit.create>[0]['data'] },
+      data: {
+        propertyId,
+        identifier: dto.identifier,
+        floor: dto.floor,
+        type: dto.type as 'APARTMENT' | 'LOCAL' | 'COMMON_AREA' | 'PARKING' | 'STORAGE' | 'OFFICE',
+        contactName: dto.contactName,
+        contactPhone: dto.contactPhone,
+        contactEmail: dto.contactEmail,
+      },
     });
 
     return { data: unit };

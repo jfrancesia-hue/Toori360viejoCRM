@@ -8,7 +8,6 @@ export class UsersService {
 
   async findAll(tenantId: string, query: { page?: number; limit?: number; role?: string }) {
     const { page = 1, limit = 20, role } = query;
-    const where = { tenantId, ...(role && { role: role as Parameters<typeof this.prisma.user.findMany>[0]['where'] extends { role?: infer R } ? R : never }) };
 
     const [users, total] = await Promise.all([
       this.prisma.user.findMany({
