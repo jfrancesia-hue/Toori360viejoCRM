@@ -40,6 +40,13 @@ export class AuthController {
     return this.authService.forgotPassword(body.email);
   }
 
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Restablecer contraseña con token' })
+  resetPassword(@Body() body: { token: string; newPassword: string }) {
+    return this.authService.resetPassword(body.token, body.newPassword);
+  }
+
   @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

@@ -206,6 +206,38 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
+  async resetPassword(token: string, newPassword: string) {
+    let payload: { sub: string; type: string };
+
+    try {
+      payload = this.jwtService.verify(token, {
+        secret: this.config.get('JWT_SECRET'),
+      });
+    } catch {
+      throw new BadRequestException('El enlace de restablecimiento es inválido o expiró');
+    }
+
+    if (payload.type !== 'password-reset') {
+      throw new BadRequestException('Token inválido');
+    }
+
+    const user = await this.prisma.user.findFirst({
+      where: { id: payload.sub, status: 'ACTIVE' },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Usuario no encontrado');
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash },
+    });
+
+    return { data: { message: 'Contraseña actualizada correctamente' } };
+  }
+
   async forgotPassword(email: string) {
     const user = await this.prisma.user.findFirst({
       where: { email, status: 'ACTIVE' },
