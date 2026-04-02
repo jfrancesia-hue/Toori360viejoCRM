@@ -54,7 +54,7 @@ export function NewTicketForm() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) => api.post('/tickets', data),
+    mutationFn: (data: FormData) => api.post<{ data?: { id: string } }>('/tickets', data),
     onSuccess: (res: { data?: { id: string } }) => {
       toast.success('Ticket creado exitosamente');
       router.push(res.data?.id ? `/tickets/${res.data.id}` : '/tickets');
