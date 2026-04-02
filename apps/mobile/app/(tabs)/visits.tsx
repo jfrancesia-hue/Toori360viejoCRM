@@ -83,7 +83,7 @@ export default function VisitsScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
       data={sections.flatMap((s) => [{ type: 'header' as const, title: s.title, id: s.title }, ...s.data.map((v) => ({ ...v, type: 'visit' as const }))])}
-      keyExtractor={(item) => ('id' in item ? item.id : item.title)}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => {
         if (item.type === 'header') {
           return <Text style={styles.sectionHeader}>{item.title}</Text>;
