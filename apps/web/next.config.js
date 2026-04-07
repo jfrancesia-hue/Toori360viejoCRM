@@ -10,6 +10,7 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: [],
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
