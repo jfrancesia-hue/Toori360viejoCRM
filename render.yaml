@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: toori360-api
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && cd packages/db && npx prisma generate && cd ../.. && pnpm build:api
+    startCommand: node apps/api/dist/main
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_PORT
+        value: "3001"
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_REFRESH_SECRET
+        sync: false
+      - key: JWT_EXPIRATION
+        value: "15m"
+      - key: JWT_REFRESH_EXPIRATION
+        value: "7d"
+      - key: SUPABASE_URL
+        value: "https://dhhhftzdfpqthzvkrqoz.supabase.co"
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: toori360-attachments

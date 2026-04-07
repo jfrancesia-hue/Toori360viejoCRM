@@ -1,11 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  schemas   = ["toori360"]
 }
 
 // ========== TENANT ==========
@@ -28,6 +30,8 @@ model Tenant {
   tickets    Ticket[]
   slaConfigs SlaConfig[]
   categories Category[]
+
+  @@schema("toori360")
 }
 
 enum Plan {
@@ -35,12 +39,14 @@ enum Plan {
   STARTER
   PRO
   ENTERPRISE
+  @@schema("toori360")
 }
 
 enum TenantStatus {
   ACTIVE
   SUSPENDED
   TRIAL
+  @@schema("toori360")
 }
 
 // ========== USER ==========
@@ -68,6 +74,7 @@ model User {
 
   @@unique([tenantId, email])
   @@index([tenantId, role])
+  @@schema("toori360")
 }
 
 enum UserRole {
@@ -78,12 +85,14 @@ enum UserRole {
   REQUESTER
   PROVIDER_USER
   AUDITOR
+  @@schema("toori360")
 }
 
 enum UserStatus {
   ACTIVE
   INACTIVE
   PENDING
+  @@schema("toori360")
 }
 
 // ========== PROPERTY ==========
@@ -109,6 +118,7 @@ model Property {
   assets   Asset[]
 
   @@index([tenantId])
+  @@schema("toori360")
 }
 
 enum PropertyType {
@@ -117,6 +127,7 @@ enum PropertyType {
   COMPLEX
   OFFICE
   COMMERCIAL
+  @@schema("toori360")
 }
 
 // ========== UNIT ==========
@@ -137,6 +148,7 @@ model Unit {
   assets   Asset[]
 
   @@unique([propertyId, identifier])
+  @@schema("toori360")
 }
 
 enum UnitType {
@@ -146,6 +158,7 @@ enum UnitType {
   PARKING
   STORAGE
   OFFICE
+  @@schema("toori360")
 }
 
 // ========== ASSET ==========
@@ -167,6 +180,8 @@ model Asset {
   property Property? @relation(fields: [propertyId], references: [id])
   unit     Unit?     @relation(fields: [unitId], references: [id])
   tickets  Ticket[]
+
+  @@schema("toori360")
 }
 
 enum AssetStatus {
@@ -174,6 +189,7 @@ enum AssetStatus {
   INACTIVE
   UNDER_MAINTENANCE
   DECOMMISSIONED
+  @@schema("toori360")
 }
 
 // ========== PROVIDER ==========
@@ -202,6 +218,7 @@ model Provider {
   ratings Rating[]
 
   @@index([tenantId, status])
+  @@schema("toori360")
 }
 
 enum ProviderStatus {
@@ -209,6 +226,7 @@ enum ProviderStatus {
   INACTIVE
   PENDING
   SUSPENDED
+  @@schema("toori360")
 }
 
 model ProviderTrade {
@@ -224,6 +242,7 @@ model ProviderTrade {
   trade    Trade    @relation(fields: [tradeId], references: [id])
 
   @@unique([providerId, tradeId])
+  @@schema("toori360")
 }
 
 // ========== TRADE (RUBRO) ==========
@@ -242,6 +261,7 @@ model Trade {
   tickets   Ticket[]
 
   @@index([tenantId])
+  @@schema("toori360")
 }
 
 // ========== CATEGORY ==========
@@ -259,6 +279,7 @@ model Category {
   tickets  Ticket[]
 
   @@index([tenantId])
+  @@schema("toori360")
 }
 
 // ========== TICKET ==========
@@ -310,6 +331,7 @@ model Ticket {
   @@index([tenantId, providerId])
   @@index([tenantId, priority, status])
   @@index([slaDueAt])
+  @@schema("toori360")
 }
 
 enum TicketStatus {
@@ -328,6 +350,7 @@ enum TicketStatus {
   VALIDATED
   CLOSED
   CANCELLED
+  @@schema("toori360")
 }
 
 enum Priority {
@@ -335,6 +358,7 @@ enum Priority {
   HIGH
   MEDIUM
   LOW
+  @@schema("toori360")
 }
 
 enum TicketSource {
@@ -343,6 +367,7 @@ enum TicketSource {
   WHATSAPP
   EMAIL
   MANUAL
+  @@schema("toori360")
 }
 
 // ========== TICKET EVENT ==========
@@ -360,6 +385,7 @@ model TicketEvent {
   attachments Attachment[]
 
   @@index([ticketId, createdAt])
+  @@schema("toori360")
 }
 
 enum EventType {
@@ -381,6 +407,7 @@ enum EventType {
   SLA_ALERT
   NOTE
   SYSTEM
+  @@schema("toori360")
 }
 
 enum Visibility {
@@ -388,6 +415,7 @@ enum Visibility {
   PROVIDER
   CLIENT
   ALL
+  @@schema("toori360")
 }
 
 // ========== QUOTE ==========
@@ -411,6 +439,7 @@ model Quote {
   provider Provider @relation(fields: [providerId], references: [id])
 
   @@index([ticketId, status])
+  @@schema("toori360")
 }
 
 enum QuoteStatus {
@@ -418,6 +447,7 @@ enum QuoteStatus {
   APPROVED
   REJECTED
   EXPIRED
+  @@schema("toori360")
 }
 
 // ========== VISIT ==========
@@ -443,6 +473,7 @@ model Visit {
 
   @@index([providerId, scheduledAt])
   @@index([ticketId])
+  @@schema("toori360")
 }
 
 enum VisitStatus {
@@ -452,6 +483,7 @@ enum VisitStatus {
   COMPLETED
   CANCELLED
   RESCHEDULED
+  @@schema("toori360")
 }
 
 // ========== ATTACHMENT ==========
@@ -469,6 +501,8 @@ model Attachment {
 
   ticket Ticket       @relation(fields: [ticketId], references: [id])
   event  TicketEvent? @relation(fields: [eventId], references: [id])
+
+  @@schema("toori360")
 }
 
 enum AttachmentCategory {
@@ -478,6 +512,7 @@ enum AttachmentCategory {
   DOCUMENT
   EVIDENCE
   OTHER
+  @@schema("toori360")
 }
 
 // ========== SLA CONFIG ==========
@@ -495,6 +530,7 @@ model SlaConfig {
   tickets Ticket[]
 
   @@unique([tenantId, priority])
+  @@schema("toori360")
 }
 
 // ========== RATING ==========
@@ -512,6 +548,7 @@ model Rating {
   rater    User     @relation(fields: [ratedBy], references: [id])
 
   @@unique([ticketId, ratedBy])
+  @@schema("toori360")
 }
 
 // ========== CHECKLIST ==========
@@ -526,6 +563,8 @@ model Checklist {
   updatedAt   DateTime  @updatedAt
 
   ticket Ticket @relation(fields: [ticketId], references: [id])
+
+  @@schema("toori360")
 }
 
 // ========== NOTIFICATION ==========
@@ -544,6 +583,7 @@ model Notification {
   createdAt DateTime            @default(now())
 
   @@index([userId, status, createdAt])
+  @@schema("toori360")
 }
 
 enum NotificationChannel {
@@ -551,6 +591,7 @@ enum NotificationChannel {
   EMAIL
   WHATSAPP
   IN_APP
+  @@schema("toori360")
 }
 
 enum NotificationStatus {
@@ -558,6 +599,7 @@ enum NotificationStatus {
   SENT
   FAILED
   READ
+  @@schema("toori360")
 }
 
 // ========== TICKET SEQUENCE (para numeración) ==========
@@ -566,4 +608,6 @@ model TicketSequence {
   tenantId String @unique @db.Uuid
   yearMonth String // "202604"
   sequence Int    @default(0)
+
+  @@schema("toori360")
 }
